@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 查询请求
@@ -23,6 +22,8 @@ public class ChartQueryRequest extends PageRequest implements Serializable {
     private Long id;
 
     private String goal;
+
+    private String name;
 
     private String chartType;
 

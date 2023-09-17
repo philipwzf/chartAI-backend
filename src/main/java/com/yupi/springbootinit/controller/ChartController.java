@@ -10,21 +10,21 @@ import com.yupi.springbootinit.common.ResultUtils;
 import com.yupi.springbootinit.constant.UserConstant;
 import com.yupi.springbootinit.exception.BusinessException;
 import com.yupi.springbootinit.exception.ThrowUtils;
-import com.yupi.springbootinit.model.dto.chart.ChartAddRequest;
-import com.yupi.springbootinit.model.dto.chart.ChartEditRequest;
-import com.yupi.springbootinit.model.dto.chart.ChartQueryRequest;
-import com.yupi.springbootinit.model.dto.chart.ChartUpdateRequest;
+import com.yupi.springbootinit.model.dto.chart.*;
 import com.yupi.springbootinit.model.entity.Chart;
 import com.yupi.springbootinit.model.entity.User;
 import com.yupi.springbootinit.service.ChartService;
 import com.yupi.springbootinit.service.UserService;
+import com.yupi.springbootinit.utils.ExcelUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+
 
 /**
  * 帖子接口
@@ -206,6 +206,50 @@ public class ChartController {
         }
         boolean result = chartService.updateById(chart);
         return ResultUtils.success(result);
+    }
+
+    /**
+     * Generate Chart by AI
+     * @param multipartFile
+     * @param genChartByAiRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/gen")
+    public BaseResponse<String> genChartByAi(@RequestPart("file") MultipartFile multipartFile, GenChartByAiRequest genChartByAiRequest, HttpServletRequest request){
+        String name = genChartByAiRequest.getName();
+        String goal = genChartByAiRequest.getGoal();
+        String chartType = genChartByAiRequest.getChartType();
+
+        ThrowUtils.throwIf(StringUtils.isBlank(goal),ErrorCode.PARAMS_ERROR,"Goal is empty!");
+
+        ThrowUtils.throwIf(StringUtils.isNotBlank(name) && name.length()>100,ErrorCode.PARAMS_ERROR,"Name is too long!");
+
+        //Prompting for the model and the goal
+        StringBuilder userInput = new StringBuilder();
+        userInput.append("You are a Data Scientist. I'll give you the goal and raw data, please give me your conclusion").append("\n");
+        userInput.append("Goal: ").append(goal).append("\n");
+
+        //add the raw data
+        String result = ExcelUtils.excelToCsv(multipartFile);
+        userInput.append("Data: ").append(result).append("\n");
+        return ResultUtils.success(userInput.toString());
+//        User loginUser = userService.getLoginUser(request);
+//        String uuid = RandomStringUtils.randomAlphanumeric(8);
+//        String filename = uuid + "-" + multipartFile.getOriginalFilename();
+//        File file = null;
+//        try{
+//            return ResultUtils.success("");
+//        }catch (Exception e){
+//            throw new BusinessException(ErrorCode.SYSTEM_ERROR,"Upload failed");
+//        }finally{
+//            if(file!=null){
+//                boolean delete = file.delete();
+//                if(!delete){
+//                    //log.error("file delete error, filepath = {}", filepath);
+//                }
+//            }
+//        }
     }
 
 }

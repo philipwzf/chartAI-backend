@@ -3,7 +3,6 @@ package com.yupi.springbootinit.model.dto.chart;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 编辑请求
@@ -19,6 +18,7 @@ public class ChartEditRequest implements Serializable {
      */
     private Long id;
 
+    private String name;
     private String goal;
 
     private String chartData;
