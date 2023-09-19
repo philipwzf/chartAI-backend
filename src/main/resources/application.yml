@@ -89,3 +89,8 @@ cos:
     secretKey: xxx
     region: xxx
     bucket: xxx
+# Free api for LLM
+yuapi:
+  client:
+    access-key: 8onqfhpdytycr20e22ewcuc7jhnw4b7p
+    secret-key: d9ri6r7yu7pit4bag40h4ylh7ev3u79t

@@ -25,6 +25,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import static com.yupi.springbootinit.constant.CommonConstant.AI_PROMPT;
+
 
 /**
  * 帖子接口
@@ -227,7 +229,7 @@ public class ChartController {
 
         //Prompting for the model and the goal
         StringBuilder userInput = new StringBuilder();
-        userInput.append("You are a Data Scientist. I'll give you the goal and raw data, please give me your conclusion").append("\n");
+        userInput.append(AI_PROMPT).append("\n");
         userInput.append("Goal: ").append(goal).append("\n");
 
         //add the raw data
