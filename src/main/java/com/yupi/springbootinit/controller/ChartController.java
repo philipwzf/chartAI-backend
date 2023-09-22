@@ -252,27 +252,15 @@ public class ChartController {
 
         String result = doChat(userInput.toString());
 
-        List<String> splits = new ArrayList<>();
-        //todo: remove the ]]]] at the end of genChart
-        for(int i = 0;i<result.length();){
-            int j = i;
-            while(j<result.length()&&
-                    !((result.charAt(j) == '[')
-                        && (result.charAt(j + 1) == '[')
-                        && (result.charAt(j + 2) == '[')
-                        && (result.charAt(j + 3) == '['))){
-                j++;
-            }
-            splits.add(result.substring(i,j));
-            i=j+4;
-        }
-
-        if(splits.size()<3){
+        String[] splits = result.split("!!!!");
+        if(splits.length<3){
             throw new BusinessException(ErrorCode.SYSTEM_ERROR,"AI Response Error");
         }
 
-        String genChart = splits.get(1).trim();
-        String genResult = splits.get(2).trim();
+        String genChart = splits[1].trim();
+        genChart = genChart.replaceAll("\\s", "");
+
+        String genResult = splits[2].trim();
 
         Chart chart = new Chart();
         chart.setName(name);

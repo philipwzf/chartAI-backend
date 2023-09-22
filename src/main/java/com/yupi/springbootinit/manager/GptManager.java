@@ -14,49 +14,40 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.yupi.springbootinit.constant.CommonConstant.API_KEY;
-
 public class GptManager {
+    final static String API_KEY = "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";
     final static String aiPrompt = "You are a data analyst and front-end developer expert. I will provide you content in the following fixed format:\n" +
             "Goal:\n" +
             "{Data analysis goal}\n" +
             "Data:\n" +
             "{Raw data in csv format, use comma as separator}\n" +
             "Based on these two parts, please generate content in the following specified format (do not output any extra words including comments):\n" +
-            "[[[[\n" +
-            "{Front-end Echarts V5 option configuration object js code, reasonably visualize the data, do not generate any extra comments}\n" +
-            "]]]]\n" +
-            "[[[[\n" +
+            "!!!!\n" +
+            "{Front-end Echarts V5 option configuration object js code, reasonably visualize the data, do not generate any extra comments. do not generate the ]]]] at the end}\n" +
+            "!!!!\n" +
             "{Clear data analysis conclusion, the more details the better, do not generate extra comments}";
     final static String sampleStr = "Goal: Analyze the user trend\\nData: Date,User Count\\n1,10\\n2,20\\n3,30\\n\\n";
-    final static String sampleResponseStr = "[[[[\n" +
+    final static String sampleResponseStr = "!!!!\n" +
             "{\n" +
-            "    title:{\n" +
-            "        text: 'User Trend',\n" +
-            "        subtext: ''\n" +
-            "        },\n" +
-            "    tooltip:{\n" +
-            "        trigger: 'axis',\n" +
-            "        axisPointer:{\n" +
-            "            type: 'shadow'\n" +
-            "            }\n" +
-            "    },\n" +
-            "    legend:{\n" +
-            "        data:['User Count']\n" +
-            "        },\n" +
-            "    xAxis:{\n" +
-            "        data:['1','2','3']\n" +
-            "        },\n" +
-            "    yAxis:{}\n" +
-            "    series:[{\n" +
-            "        name: 'User Count',\n" +
-            "        type: 'bar',\n" +
-            "        data:[10,20,30]\n" +
-            "    }]\n" +
+            "  'title': {\n" +
+            "    'text': 'User Trend',\n" +
+            "    'x': 'center'\n" +
+            "  },\n" +
+
+            "  'xAxis': {\n" +
+            "    'type': 'category',\n" +
+            "    'data': ['1', '2', '3']\n" +
+            "  },\n" +
+            "  'yAxis': {\n" +
+            "    'type': 'value'\n" +
+            "  },\n" +
+            "  'series': [{\n" +
+            "    'data': [10, 20, 30],\n" +
+            "    'type': 'line'\n" +
+            "  }]\n" +
             "}\n" +
-            "]]]]\n" +
-            "[[[[\n" +
-            "Based on the analysis, the user on the website increases everyday.";
+            "!!!!\n" +
+            "By analyzing the provided data, it can be observed that the user count on the website has been increasing over time.";
 
 
     public static String doChat(String inputStr) {

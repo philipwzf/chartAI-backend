@@ -18,7 +18,7 @@ public interface CommonConstant {
      */
     String SORT_ORDER_DESC = " descend";
 
-    String API_KEY = "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";
+
 
     
 }
